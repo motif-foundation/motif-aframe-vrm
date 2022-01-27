@@ -1,11 +1,13 @@
 import { VRMAvatar } from '../vrm/avatar';
+import * as THREE from 'three';
 
 export class BVHLoaderWrapper {
     public async load(url: string, avatar: VRMAvatar, options: any): Promise<THREE.AnimationClip> {
         /** @ts-ignore */
-        let { BVHLoader } = await import('https://threejs.org/examples/jsm/loaders/BVHLoader.js');
+        //let { BVHLoader } = await import('https://threejs.org/examples/jsm/loaders/BVHLoader.js');
+        const loader = new BVHLoader();
         return await new Promise((resolve, reject) => {
-            new BVHLoader().load(url, (result: any) => {
+            loader.load(url, (result: any) => {
                 if (options.convertBone) {
                     this.fixTrackName(result.clip, avatar);
                 }

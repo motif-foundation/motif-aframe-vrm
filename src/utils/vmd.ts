@@ -1,4 +1,5 @@
 import { VRMAvatar } from "../vrm/avatar"
+import * as THREE from 'three';
 
 export class VMDLoaderWrapper {
     boneMapping: { bone: string, nodeNames: string[] }[] = [
@@ -83,10 +84,12 @@ export class VMDLoaderWrapper {
 
     async load(url: string, vrm: VRMAvatar, options: any): Promise<THREE.AnimationClip> {
         /** @ts-ignore */
-        let { MMDLoader } = await import('https://threejs.org/examples/jsm/loaders/MMDLoader.js');
+        const loader = new MMDLoader();
+        const solver = new CCDIKSolver();
+        //let { MMDLoader } = await import('https://threejs.org/examples/jsm/loaders/MMDLoader.js');
         /** @ts-ignore */
-        let { CCDIKSolver } = await import('https://threejs.org/examples/jsm/animation/CCDIKSolver.js');
-        let loader = new MMDLoader();
+        //let { CCDIKSolver } = await import('https://threejs.org/examples/jsm/animation/CCDIKSolver.js');
+        //let loader = new MMDLoader();
 
         let nameMap: Record<string, string> = {};
         for (let m of this.boneMapping) {
@@ -243,7 +246,7 @@ export class VMDLoaderWrapper {
                     }
                     if (iks.length > 0) {
                         console.log(iks);
-                        let ikSolver = new CCDIKSolver(vrm.model, iks);
+                        let ikSolver = solver(vrm.model, iks);
                         vrm.setModule('MMDIK', { update: (t) => ikSolver.update() });
                     }
                 }
