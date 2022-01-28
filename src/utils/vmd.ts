@@ -1,5 +1,6 @@
 import { VRMAvatar } from "../vrm/avatar"
 import * as THREE from 'three';
+ import {MMDLoader} from 'three-mmd-loader';
 
 export class VMDLoaderWrapper {
     boneMapping: { bone: string, nodeNames: string[] }[] = [
@@ -84,7 +85,9 @@ export class VMDLoaderWrapper {
 
     async load(url: string, vrm: VRMAvatar, options: any): Promise<THREE.AnimationClip> {
         /** @ts-ignore */
+       
         const loader = new MMDLoader();
+        //const loader = new MMDLoader();
         const solver = new CCDIKSolver();
         //let { MMDLoader } = await import('https://threejs.org/examples/jsm/loaders/MMDLoader.js');
         /** @ts-ignore */
